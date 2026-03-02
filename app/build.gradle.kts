@@ -9,11 +9,7 @@ plugins {
 
 android {
     namespace = "org.delcom.pam_p4_ifs23031"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "org.delcom.pam_p4_ifs23031"
@@ -25,8 +21,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // Di dalam android.defaultConfig
-        buildConfigField("String", "BASE_URL_PLANT", "\"pam-2026-p4-ifs23031-be.tianpael.fun/\"")
-        buildConfigField("String", "BASE_URL_GENREMUSIK", "\"pam-2026-p4-ifs23031-be.tianpael.fun\"")
+        buildConfigField("String", "BASE_URL_PLANT", "\"https://pam-2026-p4-ifs23031-be.tianpael.fun/\"")
+        buildConfigField("String", "BASE_URL_GENREMUSIK", "\"https://pam-2026-p4-ifs23031-be.tianpael.fun/\"")
     }
 
     buildTypes {

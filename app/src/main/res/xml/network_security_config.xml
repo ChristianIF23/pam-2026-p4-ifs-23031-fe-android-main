@@ -2,5 +2,12 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">10.247.20.173</domain>
+        <domain includeSubdomains="true">pam-2026-p4-ifs23031-be.tianpael.fun</domain>
     </domain-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
 </network-security-config>
