@@ -1,6 +1,5 @@
 package org.delcom.pam_p4_ifs23031.network.plants.service
 
-import kotlinx.serialization.json.JsonElement
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.delcom.pam_p4_ifs23031.network.data.ResponseMessage
@@ -56,11 +55,11 @@ interface PlantApiService {
         @Part("manfaat") manfaat: RequestBody,
         @Part("efekSamping") efekSamping: RequestBody,
         @Part file: MultipartBody.Part? = null
-    ): ResponseMessage<JsonElement?> // Ganti String? dengan JsonElement?
+    ): ResponseMessage<String?>
 
     // Hapus data tumbuhan
     @DELETE("plants/{id}")
     suspend fun deletePlant(
         @Path("id") plantId: String
-    ): ResponseMessage<JsonElement?> // Ganti String? dengan JsonElement?
+    ): ResponseMessage<String?>
 }

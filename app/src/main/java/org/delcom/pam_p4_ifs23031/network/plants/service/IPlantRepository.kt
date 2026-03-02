@@ -1,6 +1,5 @@
 package org.delcom.pam_p4_ifs23031.network.plants.service
 
-import kotlinx.serialization.json.JsonElement
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.delcom.pam_p4_ifs23031.network.data.ResponseMessage
@@ -41,10 +40,10 @@ interface IPlantRepository {
         manfaat: RequestBody,
         efekSamping: RequestBody,
         file: MultipartBody.Part? = null
-    ): ResponseMessage<JsonElement?>
+    ): ResponseMessage<String?>
 
     // Hapus data tumbuhan
     suspend fun deletePlant(
         plantId: String
-    ): ResponseMessage<JsonElement?>
+    ): ResponseMessage<String?>
 }

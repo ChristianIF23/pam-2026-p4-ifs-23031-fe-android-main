@@ -1,6 +1,5 @@
 package org.delcom.pam_p4_ifs23031.network.plants.service
 
-import kotlinx.serialization.json.JsonElement
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.delcom.pam_p4_ifs23031.helper.SuspendHelper
@@ -54,7 +53,7 @@ class PlantRepository (private val plantApiService: PlantApiService): IPlantRepo
         manfaat: RequestBody,
         efekSamping: RequestBody,
         file: MultipartBody.Part?
-    ): ResponseMessage<JsonElement?> {
+    ): ResponseMessage<String?> {
         return SuspendHelper.safeApiCall {
             plantApiService.putPlant(
                 plantId = plantId,
@@ -67,7 +66,7 @@ class PlantRepository (private val plantApiService: PlantApiService): IPlantRepo
         }
     }
 
-    override suspend fun deletePlant(plantId: String): ResponseMessage<JsonElement?> {
+    override suspend fun deletePlant(plantId: String): ResponseMessage<String?> {
         return SuspendHelper.safeApiCall {
             plantApiService.deletePlant(plantId)
         }
