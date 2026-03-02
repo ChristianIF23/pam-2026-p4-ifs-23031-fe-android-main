@@ -1,5 +1,6 @@
 package org.delcom.pam_p4_ifs23031.network.games.service
 
+import kotlinx.serialization.json.JsonElement
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.delcom.pam_p4_ifs23031.network.data.ResponseMessage
@@ -38,10 +39,10 @@ interface GenreMusikApiService {
         @Part("contohArtis") contohArtis: RequestBody,
         @Part("asalUsul") asalUsul: RequestBody,
         @Part file: MultipartBody.Part? = null
-    ): ResponseMessage<String?>
+    ): ResponseMessage<JsonElement?> // Ganti String? dengan JsonElement?
 
     @DELETE("genreMusik/{id}")
     suspend fun deleteGenreMusik(
         @Path("id") genreMusikId: String
-    ): ResponseMessage<String?>
+    ): ResponseMessage<JsonElement?> // Ganti String? dengan JsonElement?
 }

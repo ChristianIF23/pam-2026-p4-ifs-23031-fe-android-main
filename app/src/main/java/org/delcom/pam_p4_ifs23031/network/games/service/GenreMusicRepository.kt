@@ -1,5 +1,6 @@
 package org.delcom.pam_p4_ifs23031.network.games.service
 
+import kotlinx.serialization.json.JsonElement
 import okhttp3.MultipartBody
 import org.delcom.pam_p4_ifs23031.helper.SuspendHelper
 import org.delcom.pam_p4_ifs23031.helper.ToolsHelper.toRequestBodyText // Pastikan ini ter-import
@@ -44,7 +45,7 @@ class GenreMusikRepository(private val genreMusikApiService: GenreMusikApiServic
         contohArtis: String,
         asalUsul: String,
         file: MultipartBody.Part?
-    ): ResponseMessage<String?> {
+    ): ResponseMessage<JsonElement?> {
         return SuspendHelper.safeApiCall {
             // Ubah String jadi RequestBody otomatis di sini
             genreMusikApiService.putGenreMusik(
@@ -58,7 +59,7 @@ class GenreMusikRepository(private val genreMusikApiService: GenreMusikApiServic
         }
     }
 
-    override suspend fun deleteGenreMusik(genreMusikId: String): ResponseMessage<String?> {
+    override suspend fun deleteGenreMusik(genreMusikId: String): ResponseMessage<JsonElement?> {
         return SuspendHelper.safeApiCall { genreMusikApiService.deleteGenreMusik(genreMusikId) }
     }
 }

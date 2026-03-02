@@ -1,10 +1,12 @@
 package org.delcom.pam_p4_ifs23031.network.games.service
 
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.logging.HttpLoggingInterceptor
 import org.delcom.pam_p4_ifs23031.BuildConfig
 import org.delcom.pam_p4_ifs23031.helper.ToolsHelper
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class GenreMusikAppContainer : IGenreMusikAppContainer {
@@ -16,6 +18,11 @@ class GenreMusikAppContainer : IGenreMusikAppContainer {
         } else {
             HttpLoggingInterceptor.Level.NONE
         }
+    }
+
+    private val json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
     }
 
     /**
@@ -38,7 +45,7 @@ class GenreMusikAppContainer : IGenreMusikAppContainer {
     // 3. Konfigurasi Retrofit
     private val retrofit = Retrofit.Builder()
         .baseUrl(BuildConfig.BASE_URL_GENREMUSIK)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .client(okHttpClient) // Menggunakan client yang sudah di-bypass SSL-nya
         .build()
 
