@@ -1,6 +1,5 @@
 package org.delcom.pam_p4_ifs23031.network.games.service
 
-import kotlinx.serialization.json.JsonElement
 import okhttp3.MultipartBody
 import org.delcom.pam_p4_ifs23031.network.data.ResponseMessage
 import org.delcom.pam_p4_ifs23031.network.games.data.ResponseGenreMusik
@@ -29,7 +28,7 @@ interface IGenreMusikRepository {
         contohArtis: String,
         asalUsul: String,
         file: MultipartBody.Part? = null
-    ): ResponseMessage<JsonElement?>
+    ): ResponseMessage<String?>
 
-    suspend fun deleteGenreMusik(genreMusikId: String): ResponseMessage<JsonElement?>
+    suspend fun deleteGenreMusik(genreMusikId: String): ResponseMessage<String?>
 }

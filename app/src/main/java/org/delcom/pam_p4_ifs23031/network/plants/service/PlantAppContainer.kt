@@ -30,9 +30,10 @@ class PlantAppContainer : IPlantAppContainer {
             addInterceptor(loggingInterceptor)
         }
 
-        connectTimeout(30, TimeUnit.SECONDS)
-        readTimeout(30, TimeUnit.SECONDS)
-        writeTimeout(30, TimeUnit.SECONDS)
+        // Tingkatkan timeout menjadi 60 detik untuk proses upload
+        connectTimeout(60, TimeUnit.SECONDS)
+        readTimeout(60, TimeUnit.SECONDS)
+        writeTimeout(60, TimeUnit.SECONDS)
     }.build()
 
     private val retrofit = Retrofit.Builder()

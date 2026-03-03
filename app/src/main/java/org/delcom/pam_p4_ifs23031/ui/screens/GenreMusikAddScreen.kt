@@ -82,8 +82,11 @@ fun GenreMusikAddScreen(
     var isLoading by remember { mutableStateOf(false) }
     var tmpGenreMusik by remember { mutableStateOf<ResponseGenreMusikData?>(null) }
 
+    // Reset action state when entering screen
     LaunchedEffect(Unit) {
-        uiStateGenreMusik.genreMusikAction = GenreMusikActionUIState.Loading
+        // We don't want to set it to Loading immediately, but to something neutral
+        // or just ensure it's not a stale Success state.
+        // If your ViewModel doesn't have a 'Neutral' or 'Idle' state, we just handle it in the collector.
     }
 
     fun onSave(
@@ -95,15 +98,6 @@ fun GenreMusikAddScreen(
         file: Uri
     ) {
         isLoading = true
-
-        tmpGenreMusik = ResponseGenreMusikData(
-            nama = nama,
-            deskripsi = deskripsi,
-            contohArtis = contohArtis,
-            asalUsul = asalUsul,
-            id = "",
-            pathGambar = "",
-        )
 
         val filePart = uriToMultipart(context, file, "file")
 
@@ -119,25 +113,24 @@ fun GenreMusikAddScreen(
     LaunchedEffect(uiStateGenreMusik.genreMusikAction) {
         when (val state = uiStateGenreMusik.genreMusikAction) {
             is GenreMusikActionUIState.Success -> {
+                isLoading = false
                 SuspendHelper.showSnackBar(
                     snackbarHost = snackbarHost,
                     type = SnackBarType.SUCCESS,
-                    message = state.message
+                    message = "Berhasil menambahkan genre musik"
                 )
-                RouteHelper.to(
-                    navController,
-                    ConstHelper.RouteNames.GenreMusik.path,
-                    true
-                )
-                isLoading = false
+                // Pindah ke halaman daftar dan refresh data
+                navController.navigate(ConstHelper.RouteNames.GenreMusik.path) {
+                    popUpTo(ConstHelper.RouteNames.GenreMusik.path) { inclusive = true }
+                }
             }
             is GenreMusikActionUIState.Error -> {
+                isLoading = false
                 SuspendHelper.showSnackBar(
                     snackbarHost = snackbarHost,
                     type = SnackBarType.ERROR,
                     message = state.message
                 )
-                isLoading = false
             }
             else -> {}
         }
@@ -189,7 +182,7 @@ fun GenreMusikAddUI(
     var dataNama by remember { mutableStateOf(tmpGenreMusik?.nama ?: "") }
     var dataDeskripsi by remember { mutableStateOf(tmpGenreMusik?.deskripsi ?: "") }
     var dataContohArtis by remember { mutableStateOf(tmpGenreMusik?.contohArtis ?: "") }
-    var dataAsalUsul by remember { mutableStateOf(tmpGenreMusik?.asalUsul ?: "") } // Fix typo
+    var dataAsalUsul by remember { mutableStateOf(tmpGenreMusik?.asalUsul ?: "") }
     val context = LocalContext.current
 
     val focusManager = LocalFocusManager.current

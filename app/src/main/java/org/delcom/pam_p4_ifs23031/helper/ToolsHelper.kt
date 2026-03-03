@@ -18,17 +18,16 @@ import javax.net.ssl.X509TrustManager
 
 object ToolsHelper {
 
-    // Menggunakan BASE_URL_GENREMUSIK sesuai konfigurasi build.gradle kamu
     fun getPlantImageUrl(plantId: String): String {
-        return "${BuildConfig.BASE_URL_GENREMUSIK}plants/${plantId}/image"
+        return "${BuildConfig.BASE_URL_PLANT}plants/${plantId}/image"
     }
 
     fun getGenreMusikImageUrl(genreMusikId: String): String {
-        return "${BuildConfig.BASE_URL_GENREMUSIK}genre-musik/${genreMusikId}/image"
+        return "${BuildConfig.BASE_URL_GENREMUSIK}genreMusik/${genreMusikId}/image"
     }
 
     fun getProfilePhotoUrl(): String {
-        return "${BuildConfig.BASE_URL_GENREMUSIK}profile/photo"
+        return "${BuildConfig.BASE_URL_PLANT}profile/photo"
     }
 
     // Fungsi untuk bypass SSL Error (CertPathValidatorException)
@@ -53,7 +52,8 @@ object ToolsHelper {
     }
 
     fun String.toRequestBodyText(): RequestBody {
-        return this.toRequestBody("text/plain".toMediaTypeOrNull())
+        // Django seringkali menolak jika ada Content-Type: text/plain di part multipart
+        return this.toRequestBody(null)
     }
 
     fun uriToMultipart(

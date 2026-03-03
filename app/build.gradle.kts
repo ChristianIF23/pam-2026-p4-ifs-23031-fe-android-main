@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
 
     // Add Plugins
     alias(libs.plugins.dagger.hilt.android)
@@ -20,9 +21,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Di dalam android.defaultConfig
-        buildConfigField("String", "BASE_URL_PLANT", "\"https://pam-2026-p4-ifs23031-be.tianpael.fun/\"")
-        buildConfigField("String", "BASE_URL_GENREMUSIK", "\"https://pam-2026-p4-ifs23031-be.tianpael.fun/\"")
+        // Menggunakan port 8080 dengan HTTPS sesuai konfigurasi server Anda
+        buildConfigField("String", "BASE_URL_PLANT", "\"https://pam-2026-p4-ifs23031-be.tianpael.fun:8080/\"")
+        buildConfigField("String", "BASE_URL_GENREMUSIK", "\"https://pam-2026-p4-ifs23031-be.tianpael.fun:8080/\"")
     }
 
     buildTypes {

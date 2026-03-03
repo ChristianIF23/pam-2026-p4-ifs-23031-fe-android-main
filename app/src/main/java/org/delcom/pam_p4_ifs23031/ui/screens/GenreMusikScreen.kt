@@ -40,6 +40,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import org.delcom.pam_p4_ifs23031.R
@@ -59,6 +62,7 @@ fun GenreMusikScreen(
     genreMusikViewModel: GenreMusikViewModel
 ) {
     val uiStateGenreMusik by genreMusikViewModel.uiState.collectAsState()
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     var isLoading by remember { mutableStateOf(false) }
     var searchQuery by remember {
@@ -72,8 +76,10 @@ fun GenreMusikScreen(
         genreMusikViewModel.getAllGenreMusiks(searchQuery.text)
     }
 
-    LaunchedEffect(Unit) {
-        fetchGenreMusiksData()
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            fetchGenreMusiksData()
+        }
     }
 
     LaunchedEffect(uiStateGenreMusik.genreMusiks){
@@ -161,37 +167,42 @@ fun GenreMusikUI(
     genreMusiks: List<ResponseGenreMusikData>,
     onOpen: (String) -> Unit
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        items(genreMusiks) { genreMusik ->
-            GenreMusikItemUI(
-                genreMusik,
-                onOpen
-            )
-        }
-    }
-
     if(genreMusiks.isEmpty()){
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            shape = MaterialTheme.shapes.medium,
-            elevation = CardDefaults.cardElevation(4.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = "Tidak ada data!",
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center,
+            Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
-            )
+                    .padding(32.dp),
+                shape = MaterialTheme.shapes.medium,
+                elevation = CardDefaults.cardElevation(4.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+            ) {
+                Text(
+                    text = "Tidak ada data!",
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                )
+            }
+        }
+    } else {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            items(genreMusiks) { genreMusik ->
+                GenreMusikItemUI(
+                    genreMusik,
+                    onOpen
+                )
+            }
         }
     }
 }
@@ -218,7 +229,8 @@ fun GenreMusikItemUI(
                 .padding(12.dp)
         ) {
             AsyncImage(
-                model = ToolsHelper.getGenreMusikImageUrl(genreMusik.pathGambar),
+                // PERBAIKAN: Gunakan genreMusik.id alih-alih pathGambar jika menggunakan endpoint /image
+                model = ToolsHelper.getGenreMusikImageUrl(genreMusik.id),
                 contentDescription = genreMusik.nama,
                 placeholder = painterResource(R.drawable.img_placeholder),
                 error = painterResource(R.drawable.img_placeholder),
@@ -251,15 +263,4 @@ fun GenreMusikItemUI(
             }
         }
     }
-}
-
-@Preview(showBackground = true, name = "Light Mode")
-@Composable
-fun PreviewGenreMusikUI() {
-//    DelcomTheme {
-//        GenreMusikUI(
-//            genreMusiks = DummyData.getGenreMusiksData(),
-//            onOpen = {}
-//        )
-//    }
 }

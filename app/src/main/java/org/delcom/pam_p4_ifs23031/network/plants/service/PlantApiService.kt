@@ -18,18 +18,18 @@ import retrofit2.http.Query
 
 interface PlantApiService {
     // Ambil profile developer
-    @GET("profile")
+    @GET("profile/")
     suspend fun getProfile(): ResponseMessage<ResponseProfile?>
 
     // Ambil semua data tumbuhan
-    @GET("plants")
+    @GET("plants/")
     suspend fun getAllPlants(
         @Query("search") search: String? = null
     ): ResponseMessage<ResponsePlants?>
 
     // Tambah data tumbuhan
     @Multipart
-    @POST("plants")
+    @POST("plants/")
     suspend fun postPlant(
         @Part("nama") nama: RequestBody,
         @Part("deskripsi") deskripsi: RequestBody,
@@ -39,7 +39,7 @@ interface PlantApiService {
     ): ResponseMessage<ResponsePlantAdd?>
 
     // Ambil data tumbuhan berdasarkan ID
-    @GET("plants/{id}")
+    @GET("plants/{id}/")
     suspend fun getPlantById(
         @Path("id") plantId: String
     ): ResponseMessage<ResponsePlant?>
@@ -47,7 +47,7 @@ interface PlantApiService {
 
     // Ubah data tumbuhan
     @Multipart
-    @PUT("plants/{id}")
+    @PUT("plants/{id}/")
     suspend fun putPlant(
         @Path("id") plantId: String,
         @Part("nama") nama: RequestBody,
@@ -58,7 +58,7 @@ interface PlantApiService {
     ): ResponseMessage<String?>
 
     // Hapus data tumbuhan
-    @DELETE("plants/{id}")
+    @DELETE("plants/{id}/")
     suspend fun deletePlant(
         @Path("id") plantId: String
     ): ResponseMessage<String?>
